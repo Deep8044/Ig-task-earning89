@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IG Task Earning</title>
+  <meta charset="UTF-8" />
+</head>
+<body>
+  <h1>Welcome to IG Task Earning App</h1>
+  <p>Login/Register is automatic. More features coming soon.</p>
+  
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDrqGpYLXdkjzK4tlTK87tfbYXvkCA1OT0",
+    authDomain: "ig-task-earning.firebaseapp.com",
+    projectId: "ig-task-earning",
+    storageBucket: "ig-task-earning.firebasestorage.app",
+    messagingSenderId: "545400487297",
+    appId: "1:545400487297:web:e68967e16a538b333b3c80",
+    measurementId: "G-6NCEP1KV0L"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Placeholder logic: auto register or login
+  window.addEventListener("DOMContentLoaded", async () => {
+    const email = prompt("Enter your email:");
+    const password = "test123"; // simple default password
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      alert("Logged in as: " + userCredential.user.email);
+    } catch {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        coins: 1000,
+        referredBy: "",
+      });
+      alert("Account created and logged in as: " + userCredential.user.email);
+    }
+  });
+</script>
+
+</body>
+</html>
